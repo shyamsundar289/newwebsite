@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THE FOTOMANTRA — Cinematic Wedding Photography</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { corePlugins: { preflight: false } }
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&family=Dancing+Script:wght@600&display=swap');
+
+  :root{
+    --ivory:#F5EEE6;
+    --cream:#EFE4D8;
+    --beige:#D8C0AB;
+    --taupe:#B9A08C;
+    --brown:#2A2521;
+    --charcoal:#3A3430;
+    --white:#FFFDF9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--ivory);
+    color:var(--brown);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:500;}
+  .script{font-family:'Dancing Script',cursive;font-weight:600;}
+  .label{
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--taupe);font-weight:500;
+  }
+  .divider{height:1px;background:var(--taupe);opacity:.4;}
+  a{color:inherit;text-decoration:none;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    padding:14px 26px;border:1px solid var(--brown);
+    color:var(--brown);background:transparent;transition:.3s;
+    cursor:pointer;
+  }
+  .btn.dark{background:var(--brown);color:var(--ivory);border-color:var(--brown);}
+  .btn.light{border-color:var(--ivory);color:var(--ivory);}
+  .btn:hover{background:var(--brown);color:var(--ivory);}
+  .btn.light:hover{background:var(--ivory);color:var(--brown);}
+
+  /* PHOTO PLACEHOLDER STYLE - stands in for real photography */
+  .photo{
+    position:relative;background:
+      linear-gradient(135deg,#c9ad92,#8f7460 60%,#5a4a3c);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .photo::before{
+    content:attr(data-cap);
+    font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:rgba(255,253,249,.55);
+  }
+  .photo.dark-overlay::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(30,25,20,.15),rgba(20,16,12,.55));
+  }
+  .photo.bw{filter:grayscale(1) contrast(1.05);}
+
+  section{position:relative;}
+  .wrap{max-width:1440px;margin:0 auto;padding:0 64px;}
+
+  /* HEADER */
+  header{
+    position:absolute;top:0;left:0;right:0;z-index:20;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:32px 64px;
+  }
+  .logo{font-size:13px;letter-spacing:.14em;color:var(--white);line-height:1.4;}
+  .logo b{display:block;font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:.08em;}
+  nav{display:flex;gap:34px;}
+  nav a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--white);
+    position:relative;padding-bottom:4px;}
+  nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--white);transition:.3s;}
+  nav a:hover::after{width:100%;}
+  .head-right{display:flex;align-items:center;gap:24px;}
+
+  /* HERO */
+  .hero{height:100vh;min-height:760px;margin-bottom:0;}
+  .hero .photo{height:100%;}
+  .hero-content{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    justify-content:flex-end;padding:0 64px 90px;color:var(--white);
+  }
+  .hero-eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin-bottom:18px;}
+  .hero h1{font-size:88px;line-height:.98;letter-spacing:.01em;text-transform:uppercase;}
+  .hero h1 .script{font-size:70px;text-transform:none;letter-spacing:0;}
+  .hero-sub{margin-top:24px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;}
+  .vertical-label{
+    position:absolute;left:28px;top:50%;transform:translateY(-50%) rotate(-90deg);
+    transform-origin:left center;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--white);opacity:.75;white-space:nowrap;
+  }
+
+  /* FEATURED WEDDINGS */
+  .weddings{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-bottom:130px;align-items:end;}
+  .wed-card{position:relative;}
+  .wed-card.h1, .wed-card.h2, .wed-card.h3, .wed-card.h4 {height:450px;}
+  .wed-caption{position:absolute;left:20px;bottom:20px;color:var(--white);}
+  .wed-caption .name{font-family:'Cormorant Garamond',serif;font-size:22px;}
+  .wed-caption .loc{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.8;margin-top:2px;}
+  .view-all{display:flex;justify-content:center;margin-top:-90px;padding-bottom:100px;}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);height:140px;align-content:center;background:var(--cream);}
+  .stat{text-align:center;position:relative;padding:0 20px;}
+  .stat:not(:last-child)::after{content:'';position:absolute;right:0;top:10%;height:80%;width:1px;background:var(--taupe);opacity:.5;}
+  .stat .num{font-size:44px;}
+  .stat .label{margin-top:10px;}
+
+  /* FILM SECTION */
+  .film{height:88vh;min-height:600px;}
+  .film .photo{height:100%;}
+  .film-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--white);text-align:center;}
+  .film-inner .label{color:rgba(255,253,249,.8);margin-bottom:26px;}
+  .play-btn{
+    width:88px;height:88px;border:1px solid rgba(255,253,249,.6);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;margin-bottom:32px;
+    font-size:20px;transition:.3s;
+    cursor:pointer;
+  }
+  .play-btn:hover{background:rgba(255,253,249,.1);}
+  .film-inner h2{font-size:54px;max-width:640px;line-height:1.1;text-transform:uppercase;}
+  .film-meta{position:absolute;left:64px;bottom:40px;color:var(--white);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.75;}
+
+  /* TESTIMONIALS */
+  .testi{display:flex;flex-direction:column;align-items:center;text-align:center;padding:110px 0;}
+  .dots{display:flex;gap:8px;margin-top:20px;justify-content:center;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--taupe);opacity:.4;transition:0.4s;}
+  .dot.active{opacity:1;transform:scale(1.3);}
+
+  /* INSTAGRAM */
+  .insta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-bottom:120px;}
+  .insta-grid .photo{aspect-ratio:1/1;height:auto;border-radius:6px;transition:all 0.4s ease;cursor:pointer;}
+  .insta-grid .photo:hover{transform:scale(1.04);box-shadow:0 15px 30px rgba(0,0,0,0.12); z-index:10;}
+
+  /* CTA */
+  .cta{background:var(--brown);color:var(--ivory);padding:150px 0;text-align:center;}
+  .cta h2{font-size:60px;text-transform:uppercase;line-height:1.1;}
+  .cta .script{font-size:48px;text-transform:none;display:block;margin-top:6px;}
+  .cta p{margin-top:26px;font-size:14px;opacity:.75;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.6;}
+  .cta .btn{margin-top:38px;}
+
+  /* FOOTER */
+  footer{background:#221E1A;color:var(--cream);padding:90px 0 30px;}
+  .foot-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding-bottom:70px;}
+  .foot-logo{font-family:'Cormorant Garamond',serif;font-size:26px;}
+  .foot-col .label{color:var(--taupe);margin-bottom:14px;}
+  .foot-col p{font-size:14px;line-height:2;opacity:.85;}
+  .foot-bottom{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.06em;opacity:.6;padding-top:26px;border-top:1px solid rgba(245,238,230,.15);}
+
+  /* MOBILE MENU TOGGLE */
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 100; }
+  .menu-toggle span { width: 24px; height: 2px; background: var(--white); transition: 0.3s; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* RESPONSIVE MEDIA QUERIES */
+  @media (max-width: 1024px) {
+    .wrap { padding: 0 40px; }
+    header { padding: 24px 40px; }
+    .hero-content { padding: 0 40px 60px; }
+    .hero h1 { font-size: clamp(60px, 8vw, 88px); }
+    .hero h1 .script { font-size: clamp(48px, 6vw, 70px); }
+    .weddings { grid-template-columns: repeat(2, 1fr); gap: 20px; height: auto; }
+    .wed-card.h1, .wed-card.h2, .wed-card.h3, .wed-card.h4 { height: 400px; }
+    .testi { padding: 80px 0; }
+    .foot-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+  }
+
+  @media (max-width: 768px) {
+    .wrap { padding: 0 24px; }
+    header { flex-direction: row; justify-content: space-between; padding: 20px 24px; width: 100%; box-sizing: border-box; background: rgba(34, 30, 26, 0.95); }
+    .menu-toggle { display: flex; }
+    nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(34, 30, 26, 0.98); flex-direction: column; text-align: center; padding: 10px 0; gap: 0; }
+    nav.active { display: flex !important; }
+    nav a { font-size: 14px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    nav a:last-child { border-bottom: none; }
+    
+    .hero { min-height: 100svh; }
+    .hero-content { padding: 0 24px 40px; text-align: center; justify-content: flex-end; }
+    .vertical-label { display: none; }
+    .hero-eyebrow { margin-bottom: 12px; }
+    .hero h1 { font-size: clamp(46px, 12vw, 88px); }
+    .hero h1 .script { font-size: clamp(38px, 10vw, 70px); }
+    .hero-sub { margin-top: 16px; }
+
+    .stats { grid-template-columns: repeat(2, 1fr); height: auto; padding: 40px 0; gap: 40px 0; }
+    .stat:nth-child(2)::after { display: none; }
+    .stat .num { font-size: clamp(36px, 8vw, 44px); }
+
+    .weddings { grid-template-columns: repeat(2, 1fr); gap: 12px; height: auto; padding-bottom: 60px; }
+    .wed-card.h1, .wed-card.h2, .wed-card.h3, .wed-card.h4 { height: 260px; }
+    .wed-caption { left: 12px; bottom: 12px; }
+    .wed-caption .name { font-size: 16px; }
+    .view-all { margin-top: 20px; padding-bottom: 60px; }
+
+    .film { min-height: auto; height: auto; aspect-ratio: 16/9; max-height: none; }
+    .film-inner { padding: 0 16px; justify-content: center; }
+    .film-inner .label { margin-bottom: 10px; font-size: 10px; }
+    .film-inner h2 { font-size: clamp(20px, 6vw, 32px); margin-bottom: 12px; }
+    .play-btn { width: 44px; height: 44px; font-size: 14px; margin-bottom: 12px; }
+    .film-meta { display: none; }
+
+    .insta-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding-bottom: 60px; }
+
+    .cta { padding: 80px 24px; }
+    .cta h2 { font-size: clamp(36px, 10vw, 60px); }
+    .cta .script { font-size: clamp(32px, 8vw, 48px); }
+
+    .foot-bottom { flex-direction: column; gap: 12px; align-items: center; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo"><b>FOTOMANTRA</b></div>
+  <div class="menu-toggle" onclick="this.classList.toggle('open'); document.querySelector('nav').classList.toggle('active');">
+    <span></span><span></span><span></span>
+  </div>
+  <nav>
+    <a href="#">Home</a><a href="#">Weddings</a><a href="#">Films</a>
+    <a href="#">Stories</a><a href="#">About</a><a href="#">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="photo dark-overlay" data-cap="Cinematic wedding photograph — hero image"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">The Fotomantra</div>
+    <h1>WHERE<br>EMOTIONS<br>BECOME <span class="script">art.</span></h1>
+    <div class="hero-sub">Best Wedding Photography Jaipur</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats" id="stats-section">
+  <div class="stat"><div class="num serif"><span class="counter" data-target="250">0</span>+</div><div class="label">Weddings</div></div>
+  <div class="stat"><div class="num serif"><span class="counter" data-target="7">0</span>+</div><div class="label">Years of Stories</div></div>
+  <div class="stat"><div class="num serif"><span class="counter" data-target="21">0</span>K+</div><div class="label">Followers</div></div>
+  <div class="stat"><div class="num serif">∞</div><div class="label">Memories</div></div>
+</section>
+
+<!-- HORIZONTAL DIVIDER (Matches Stats Vertical Lines) -->
+<div class="w-full h-[1px] opacity-50" style="background:var(--taupe);"></div>
+
+<!-- ABOUT (Full Width Cream Background) -->
+<div class="w-full" style="background:var(--cream);">
+  <section class="flex flex-col md:flex-row items-center justify-between max-w-[1440px] mx-auto px-6 md:px-[100px] pt-[20px] pb-[120px] gap-12 md:gap-[8%]">
+    <!-- Left: Founder Image (~45%) -->
+    <div class="w-full md:w-[45%] flex justify-center md:justify-end">
+      <div class="w-[85%] max-w-[360px] md:w-full md:max-w-[420px] aspect-[3/4]">
+        <div class="photo bw w-full h-full rounded-t-full rounded-b-[40px] overflow-hidden" data-cap="Mr. Ravi Soni - Founder"></div>
+      </div>
+    </div>
+    <!-- Right: Text Content (~45%) -->
+    <div class="w-full md:w-[45%] flex flex-col justify-center">
+      <div class="label flex items-center gap-3"><span class="w-10 h-[1px] bg-[#B9A08C]"></span> WHO WE ARE</div>
+      <h2 style="font-size:48px; line-height:1.1; margin-top:16px; font-style:italic; font-family:'Cormorant Garamond', serif; font-weight:400; color:var(--brown);">Our mantra is you.</h2>
+      <p style="margin-top:16px; font-size:16px; line-height:1.6; color:var(--charcoal); max-w-[420px];">We don't just take pictures, we preserve emotions, relationships and fleeting moments that become your forever.</p>
+      <div class="signature script" style="margin-top:28px; font-size:40px; color:var(--brown);">Mr. Ravi Soni</div>
+      <div class="founder" style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--taupe); margin-top:4px;">Mr. Ravi Soni — Founder, The Fotomantra</div>
+      <a class="btn" style="margin-top:32px; padding:10px 24px; width:fit-content;">More About Us →</a>
+    </div>
+  </section>
+</div>
+
+<!-- SEAMLESS GAPLESS GALLERY (Stories) -->
+<section class="max-w-[1440px] mx-auto px-4 md:px-[64px] pb-[130px]">
+  
+  <!-- Unique Header: Center aligned with elegant script -->
+  <div class="pt-[30px] pb-[30px] text-center flex flex-col items-center">
+    <div class="label mb-2">Gallery</div>
+    <h2 class="script" style="font-size:56px; text-transform:none; color:var(--brown); line-height:1;">Written in Moments</h2>
+    <p class="text-sm mt-2 text-stone-500 max-w-[400px]">A seamless collection of our finest captures</p>
+  </div>
+  
+  <!-- Gapless, Interlocking Grid inside a rounded container -->
+  <div class="grid grid-cols-2 md:grid-cols-4 grid-rows-8 md:grid-rows-4 gap-0 h-[1000px] md:h-[800px] rounded-xl md:rounded-2xl overflow-hidden shadow-xl border-[2px] md:border-4 border-white bg-white" style="grid-auto-flow: dense;">
+    
+    <!-- 1: Large (2x2) at TOP LEFT -->
+    <div class="col-span-2 row-span-2 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
+      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Couple (Large)"></div>
+    </div>
+    
+    <!-- 2: Tall (1x2) -->
+    <div class="col-span-1 row-span-2 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
+      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Portrait (Tall)"></div>
+    </div>
+    
+    <!-- 3: Small (1x1) -->
+    <div class="col-span-1 row-span-1 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
+      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Rings (Detail)"></div>
+    </div>
+    
+    <!-- 4: Small (1x1) -->
+    <div class="col-span-1 row-span-1 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
+      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Decor (Detail)"></div>
+    </div>
+    
+    <!-- 5: Small (1x1) -->
+    <div class="col-span-1 row-span-1 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
+      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Candid (Small)"></div>
+    </div>
+    
+    <!-- 6: Tall (1x2) -->
+    <div class="col-span-1 row-span-2 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
+      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Bride (Tall)"></div>
+    </div>
+    
+    <!-- 7: Large (2x2) at BOTTOM RIGHT (Diagonal to Couple) -->
+    <div class="col-span-2 row-span-2 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
+      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Vows (Large)"></div>
+    </div>
+    
+    <!-- 8: Small (1x1) -->
+    <div class="col-span-1 row-span-1 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
+      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Dance (Small)"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURED WEDDINGS -->
+<section class="wrap">
+  <!-- Unique Header: Split Layout with Underline -->
+  <div class="flex flex-col md:flex-row justify-between items-end pb-[40px] pt-[80px] mb-[40px] border-b border-stone-300">
+    <div>
+      <div class="label mb-2">Featured Weddings</div>
+      <h2 style="font-size:52px;line-height:1.05;text-transform:uppercase;">Some Moments.<br>Forever.</h2>
+    </div>
+    <p class="max-w-[300px] text-left md:text-right text-sm text-stone-500 pb-2">A glimpse into the beautiful celebrations we've had the honour to capture.</p>
+  </div>
+  
+  <div class="weddings">
+    <div class="wed-card h1"><div class="photo" style="height:100%" data-cap=""></div><div class="wed-caption"><div class="name">Ritesh &amp; Genelia</div><div class="loc">Jaipur</div></div></div>
+    <div class="wed-card h2"><div class="photo" style="height:100%" data-cap=""></div><div class="wed-caption"><div class="name">Kunal &amp; Aanchal</div><div class="loc">Udaipur</div></div></div>
+    <div class="wed-card h3"><div class="photo" style="height:100%" data-cap=""></div><div class="wed-caption"><div class="name">Sachin &amp; Neha</div><div class="loc">Jaipur</div></div></div>
+    <div class="wed-card h4"><div class="photo" style="height:100%" data-cap=""></div><div class="wed-caption"><div class="name">Varun &amp; Megha</div><div class="loc">Udaipur</div></div></div>
+  </div>
+  <div class="view-all"><a class="btn">View All Weddings →</a></div>
+</section>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const counters = document.querySelectorAll('.counter');
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const duration = 2000; 
+            const increment = target / (duration / 16); 
+            let current = 0;
+            const updateCounter = () => {
+              current += increment;
+              if(current < target) {
+                counter.innerText = Math.ceil(current);
+                requestAnimationFrame(updateCounter);
+              } else {
+                counter.innerText = target;
+              }
+            };
+            updateCounter();
+          });
+          observer.disconnect(); 
+        }
+      });
+    }, { threshold: 0.5 }); 
+
+    const statsSection = document.getElementById('stats-section');
+    if(statsSection) observer.observe(statsSection);
+  });
+</script>
+
+<!-- FILM -->
+<section class="film">
+  <div class="photo dark-overlay" data-cap="Wedding film still"></div>
+  <div class="film-inner">
+    <!-- Unique Header: Cinematic overlay text -->
+    <div class="label tracking-[0.4em] mb-6">Watch The Story</div>
+    <div class="play-btn">▶</div>
+    <h2 style="font-size:54px;max-width:640px;line-height:1.1;text-transform:uppercase;">Every frame<br>has a feeling.</h2>
+  </div>
+  <div class="film-meta">01 / 04 — Cinematography</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="wrap">
+  <div class="testi w-full">
+    <div class="label tracking-[0.2em] uppercase text-[#B9A08C]">Kind Words</div>
+    <div style="font-size:80px; font-family:'Cormorant Garamond',serif; color:var(--taupe); line-height:0; margin-top:40px; opacity:0.4;">"</div>
+    
+    <!-- Carousel Container -->
+    <div class="relative w-full max-w-[800px] h-[300px] md:h-[220px] mt-4 flex items-center justify-center">
+      
+      <!-- Slide 1 -->
+      <div class="review-slide absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000 opacity-100">
+        <h2 class="serif" style="font-size:clamp(20px, 4vw, 34px); line-height:1.4; width:92%; max-width:600px;">They didn't just capture our wedding, they captured every emotion, every smile and every moment we'll cherish forever.</h2>
+        <div class="who" style="margin-top:20px; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal);">— Ritesh &amp; Genelia</div>
+      </div>
+      
+      <!-- Slide 2 -->
+      <div class="review-slide absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000 opacity-0 pointer-events-none">
+        <h2 class="serif" style="font-size:clamp(20px, 4vw, 34px); line-height:1.4; width:92%; max-width:600px;">Looking at our photos feels like reliving the most magical day of our lives. The attention to detail is just breathtaking.</h2>
+        <div class="who" style="margin-top:20px; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal);">— Kunal &amp; Aanchal</div>
+      </div>
+      
+      <!-- Slide 3 -->
+      <div class="review-slide absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000 opacity-0 pointer-events-none">
+        <h2 class="serif" style="font-size:clamp(20px, 4vw, 34px); line-height:1.4; width:92%; max-width:600px;">True artists! They blended in perfectly and caught the raw, beautiful candid moments we didn't even know happened.</h2>
+        <div class="who" style="margin-top:20px; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal);">— Sachin &amp; Neha</div>
+      </div>
+      
+    </div>
+
+    <!-- Carousel Dots -->
+    <div class="dots flex justify-center mt-2">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS CAROUSEL SCRIPT -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.review-slide');
+    const dots = document.querySelectorAll('.testi .dot');
+    let currentSlide = 0;
+    if(slides.length === 0) return;
+
+    setInterval(() => {
+      slides[currentSlide].classList.remove('opacity-100');
+      slides[currentSlide].classList.add('opacity-0', 'pointer-events-none');
+      dots[currentSlide].classList.remove('active');
+      
+      currentSlide = (currentSlide + 1) % slides.length;
+      
+      slides[currentSlide].classList.remove('opacity-0', 'pointer-events-none');
+      slides[currentSlide].classList.add('opacity-100');
+      dots[currentSlide].classList.add('active');
+    }, 4500); // 4.5 seconds per slide
+  });
+</script>
+
+<!-- INSTAGRAM -->
+<section class="wrap">
+  <!-- Unique Header: Centered Minimalist -->
+  <div class="flex flex-col items-center justify-center text-center pt-[90px] pb-[60px]">
+    <div class="label tracking-[0.3em] mb-3">@thefotomantra</div>
+    <h2 style="font-size:40px;text-transform:uppercase;letter-spacing:2px;">From Our Journey</h2>
+    <a href="https://www.instagram.com/thefotomantra/" target="_blank" class="btn mt-8">Follow Us On Instagram →</a>
+  </div>
+  
+  <div class="insta-grid">
+    <div class="photo" data-cap=""></div>
+    <div class="photo" data-cap=""></div>
+    <div class="photo" data-cap=""></div>
+    <div class="photo" data-cap=""></div>
+    <div class="photo" data-cap=""></div>
+    <div class="photo" data-cap=""></div>
+    <div class="photo" data-cap=""></div>
+    <div class="photo" data-cap=""></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Let's Create<span class="script">something beautiful together.</span></h2>
+  <p>Your story deserves more than a photograph. Let's create something you'll feel forever.</p>
+  <a class="btn light">Enquire Now →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">FOTOMANTRA</div>
+        <div style="font-size:12px;letter-spacing:.1em;opacity:.7;margin-top:4px;">The Fotomantra</div>
+      </div>
+      <div class="foot-col">
+        <p style="font-size:18px; margin-top: 10px;">Jaipur Photography</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© The Fotomantra — All Rights Reserved.</div>
+      <div>Privacy Policy &nbsp;&nbsp; Terms &amp; Conditions</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
