@@ -2,29 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>THE FOTOMANTRA — Cinematic Wedding Photography</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = { corePlugins: { preflight: false } }
 </script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&family=Dancing+Script:wght@600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=EB+Garamond:wght@400;500&family=Playfair+Display:ital,wght@1,400;1,500&display=swap');
+
+  @keyframes marquee-scroll {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .calligraphy-marquee-track { animation-play-state: paused !important; }
+  }
 
   :root{
-    --ivory:#F5EEE6;
-    --cream:#EFE4D8;
-    --beige:#D8C0AB;
-    --taupe:#B9A08C;
-    --brown:#2A2521;
-    --charcoal:#3A3430;
-    --white:#FFFDF9;
+    --ivory:#F0E9E0;
+    --cream:#F0E9E0;
+    --beige:#F0E9E0;
+    --taupe:#000000;
+    --brown:#000000;
+    --charcoal:#000000;
+    --white:#F0E9E0;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--ivory); }
+  ::-webkit-scrollbar-thumb { background: #000000; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #1a1a1a; }
+  * { scrollbar-width: thin; scrollbar-color: #000000 var(--ivory); }
+  html { overflow-x: hidden; max-width: 100%; }
   body{
     background:var(--ivory);
     color:var(--brown);
     font-family:'Inter',sans-serif;
     overflow-x:hidden;
+    max-width: 100%;
   }
   h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:500;}
   .script{font-family:'Dancing Script',cursive;font-weight:600;}
@@ -46,7 +63,6 @@
   .btn:hover{background:var(--brown);color:var(--ivory);}
   .btn.light:hover{background:var(--ivory);color:var(--brown);}
 
-  /* PHOTO PLACEHOLDER STYLE - stands in for real photography */
   .photo{
     position:relative;background:
       linear-gradient(135deg,#c9ad92,#8f7460 60%,#5a4a3c);
@@ -69,34 +85,168 @@
 
   /* HEADER */
   header{
-    position:absolute;top:0;left:0;right:0;z-index:20;
+    position:relative; z-index:20;
     display:flex;align-items:center;justify-content:space-between;
-    padding:32px 64px;
+    padding:20px 40px; background: #F0E9E0; min-height: 70px;
   }
-  .logo{font-size:13px;letter-spacing:.14em;color:var(--white);line-height:1.4;}
-  .logo b{display:block;font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:.08em;}
-  nav{display:flex;gap:34px;}
-  nav a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--white);
-    position:relative;padding-bottom:4px;}
-  nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--white);transition:.3s;}
-  nav a:hover::after{width:100%;}
-  .head-right{display:flex;align-items:center;gap:24px;}
+  .logo{flex: 0 0 auto;}
+  .logo b{
+    display:inline-block; font-family:'Fraunces', serif; font-size:22px;
+    letter-spacing:2px; font-weight: 900; text-transform: uppercase; color: #000000;
+  }
+  nav.center-nav { display:flex; gap:32px; flex: 1; justify-content: center; }
+  nav.center-nav a {
+    font-family: 'Cormorant Garamond', serif; font-size: 15px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #000000; font-weight: 500; text-decoration: none; position: relative;
+  }
+  nav.center-nav a::after { content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:#000000;transition:.3s; }
+  nav.center-nav a:hover::after { width:100%; }
+
+  .head-right { flex: 0 0 auto; }
+  .btn-connect {
+    display: inline-flex; align-items: center; border: 1px solid #000000;
+    background: transparent; padding: 10px 22px; font-family: 'EB Garamond', serif;
+    font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #000000; text-decoration: none; transition: 0.3s;
+  }
+  .btn-connect:hover { background: #000000; color: #F0E9E0; }
+  .btn-connect .arrow { margin-left: 8px; transition: transform 0.3s; }
+  .btn-connect:hover .arrow { transform: translateX(4px); }
+  nav.mobile-nav { display: none; }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px; height: 20px;
+    cursor: pointer;
+    z-index: 30;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 100%; height: 2px;
+    background: #000000;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
 
   /* HERO */
-  .hero{height:100vh;min-height:760px;margin-bottom:0;}
-  .hero .photo{height:100%;}
-  .hero-content{
-    position:absolute;inset:0;display:flex;flex-direction:column;
-    justify-content:flex-end;padding:0 64px 90px;color:var(--white);
+  .hero { position: relative; background: #F0E9E0; padding: 80px 0 0; margin-bottom: 0; overflow-x: hidden; width: 100%; }
+
+  .hero-text-container {
+    position: relative;
+    z-index: 10;
+    width: 100%; margin: 0 auto;
+    text-align: center;
+    padding: 0 20px;
+    box-sizing: border-box;
   }
-  .hero-eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin-bottom:18px;}
-  .hero h1{font-size:88px;line-height:.98;letter-spacing:.01em;text-transform:uppercase;}
-  .hero h1 .script{font-size:70px;text-transform:none;letter-spacing:0;}
-  .hero-sub{margin-top:24px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;}
-  .vertical-label{
-    position:absolute;left:28px;top:50%;transform:translateY(-50%) rotate(-90deg);
-    transform-origin:left center;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--white);opacity:.75;white-space:nowrap;
+
+
+  .hero-title {
+    font-family: 'Canora Frente', 'Canora', 'Playfair Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 13vw;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: #000000;
+    -webkit-text-stroke: 0px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    display: block;
+    text-align: left;
+    width: 100%;
+  }
+  .script-of {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 55%;
+    color: #000000;
+    text-transform: lowercase;
+    position: relative;
+    margin: 0 4vw;
+  }
+  .script-of::before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 140%;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 100" preserveAspectRatio="none"><path d="M 10 90 C 50 70, 0 30, 40 10" stroke="%23000000" stroke-width="1.5" fill="none"/></svg>') no-repeat center;
+    z-index: -1;
+  }
+  .hero-bottom-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-bottom: 60px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    line-height: 1.4;
+    color: #000000;
+    text-transform: uppercase;
+    padding: 0; /* Auto-aligns with FOTOMANTRA edges */
+  }
+  .hero-bottom-text .left-text { text-align: left; }
+  .hero-bottom-text .right-text { text-align: right; }
+  .hero-image-container { margin-top: 0; }
+  .hero .photo { height: 55vh; width: 100%; object-fit: cover; }
+
+  /* IMAGE SLIDER */
+  .hero-image-slider {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #111;
+  }
+  .hero-slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    image-rendering: high-quality;
+    transform: scale(1.1);
+    opacity: 0;
+    z-index: 1;
+  }
+  .hero-slide.active {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+    z-index: 2;
+    transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+  }
+  .hero-slide.exit {
+    transform: translate3d(-100%, 0, 0) scale(1);
+    opacity: 1;
+    z-index: 3;
+    transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+  }
+  .slide-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    z-index: 10;
+  }
+  .slide-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--ivory);
   }
 
   /* FEATURED WEDDINGS */
@@ -107,13 +257,6 @@
   .wed-caption .name{font-family:'Cormorant Garamond',serif;font-size:22px;}
   .wed-caption .loc{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.8;margin-top:2px;}
   .view-all{display:flex;justify-content:center;margin-top:-90px;padding-bottom:100px;}
-
-  /* STATS */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);height:140px;align-content:center;background:var(--cream);}
-  .stat{text-align:center;position:relative;padding:0 20px;}
-  .stat:not(:last-child)::after{content:'';position:absolute;right:0;top:10%;height:80%;width:1px;background:var(--taupe);opacity:.5;}
-  .stat .num{font-size:44px;}
-  .stat .label{margin-top:10px;}
 
   /* FILM SECTION */
   .film{height:88vh;min-height:600px;}
@@ -141,6 +284,82 @@
   .insta-grid .photo{aspect-ratio:1/1;height:auto;border-radius:6px;transition:all 0.4s ease;cursor:pointer;}
   .insta-grid .photo:hover{transform:scale(1.04);box-shadow:0 15px 30px rgba(0,0,0,0.12); z-index:10;}
 
+  /* SWIPE SLIDER & EDITORIAL GRIDS */
+  .swipe-track {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .swipe-track::-webkit-scrollbar { display: none; }
+  .swipe-slide {
+    flex: 0 0 100%; width: 100%; scroll-snap-align: start; padding: 0 5vw; box-sizing: border-box; display: flex; align-items: center;
+  }
+  .swipe-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: transparent; border: none;
+    width: 60px; height: 60px;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; z-index: 10;
+    transition: all 0.3s ease;
+  }
+  .swipe-arrow:hover { transform: translateY(-50%) scale(1.1); }
+  .swipe-prev { left: 15px; }
+  .swipe-next { right: 15px; }
+
+  .editorial-wrap-inner {
+    width: 100%; max-width: 1200px; margin: 0 auto; padding: 4vw 0;
+  }
+  .grid-type-1 {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; align-items: center;
+  }
+  .grid-type-2 {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 40px;
+  }
+  .grid-type-3 {
+    display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 40px; align-items: center;
+  }
+  .ed-img {
+    width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 4px;
+  }
+  .ed-text {
+    padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .ed-subtitle {
+    font-family: 'Inter', sans-serif; font-size: clamp(7px, 1vw, 11px); letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); margin-bottom: 20px;
+  }
+  .ed-title {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(14px, 3vw, 54px); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brown); line-height: 1.1; margin-bottom: 20px;
+  }
+  .ed-p {
+    font-family: 'Inter', sans-serif; font-size: clamp(8px, 1.2vw, 14px); line-height: 1.7; color: var(--brown); opacity: 0.75; max-width: 300px;
+  }
+
+  /* CTA LONG BTN */
+  .cta-long-btn:hover {
+    background: var(--brown);
+    color: var(--cream) !important;
+  }
+  .cta-long-btn:hover span {
+    color: var(--cream) !important;
+  }
+
+  /* FOOTER GRID */
+  .footer-grid {
+    display: grid; 
+    grid-template-columns: 2fr 1fr 1fr; 
+    gap: 40px; 
+    padding-bottom: 60px; 
+    border-bottom: 1px solid rgba(0,0,0,0.1); 
+    margin-bottom: 30px;
+  }
+
+  /* GLANCE BOX */
+  .glance-box {
+    position: relative; z-index: 20; margin-top: -4vh; 
+    width: 65%; max-width: 850px; margin-left: auto; margin-right: auto; 
+    background: #ffffff; box-shadow: 0 -20px 40px rgba(0,0,0,0.08), 0 20px 40px rgba(0,0,0,0.05); 
+    border-radius: 8px; padding: 4vw 30px; display: flex; flex-direction: column; 
+    align-items: center; text-align: center;
+  }
+
   /* CTA */
   .cta{background:var(--brown);color:var(--ivory);padding:150px 0;text-align:center;}
   .cta h2{font-size:60px;text-transform:uppercase;line-height:1.1;}
@@ -149,27 +368,23 @@
   .cta .btn{margin-top:38px;}
 
   /* FOOTER */
-  footer{background:#221E1A;color:var(--cream);padding:90px 0 30px;}
+  footer{background:var(--cream);color:var(--brown);padding:90px 0 30px;}
   .foot-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding-bottom:70px;}
   .foot-logo{font-family:'Cormorant Garamond',serif;font-size:26px;}
   .foot-col .label{color:var(--taupe);margin-bottom:14px;}
   .foot-col p{font-size:14px;line-height:2;opacity:.85;}
-  .foot-bottom{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.06em;opacity:.6;padding-top:26px;border-top:1px solid rgba(245,238,230,.15);}
+  .foot-bottom{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.06em;opacity:.6;padding-top:26px;border-top:1px solid rgba(0,0,0,.15);}
 
-  /* MOBILE MENU TOGGLE */
   .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 100; }
-  .menu-toggle span { width: 24px; height: 2px; background: var(--white); transition: 0.3s; }
+  .menu-toggle span { width: 24px; height: 2px; background: var(--brown); transition: 0.3s; }
   .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .menu-toggle.open span:nth-child(2) { opacity: 0; }
   .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  /* RESPONSIVE MEDIA QUERIES */
   @media (max-width: 1024px) {
     .wrap { padding: 0 40px; }
     header { padding: 24px 40px; }
-    .hero-content { padding: 0 40px 60px; }
-    .hero h1 { font-size: clamp(60px, 8vw, 88px); }
-    .hero h1 .script { font-size: clamp(48px, 6vw, 70px); }
+    .hero-text-container { padding: 40px 40px 40px; }
     .weddings { grid-template-columns: repeat(2, 1fr); gap: 20px; height: auto; }
     .wed-card.h1, .wed-card.h2, .wed-card.h3, .wed-card.h4 { height: 400px; }
     .testi { padding: 80px 0; }
@@ -177,333 +392,578 @@
   }
 
   @media (max-width: 768px) {
-    .wrap { padding: 0 24px; }
-    header { flex-direction: row; justify-content: space-between; padding: 20px 24px; width: 100%; box-sizing: border-box; background: rgba(34, 30, 26, 0.95); }
+    .wrap { padding: 0 20px; }
+    header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    nav.center-nav, .head-right { display: none !important; }
     .menu-toggle { display: flex; }
-    nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(34, 30, 26, 0.98); flex-direction: column; text-align: center; padding: 10px 0; gap: 0; }
-    nav.active { display: flex !important; }
-    nav a { font-size: 14px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    nav a:last-child { border-bottom: none; }
-    
-    .hero { min-height: 100svh; }
-    .hero-content { padding: 0 24px 40px; text-align: center; justify-content: flex-end; }
-    .vertical-label { display: none; }
-    .hero-eyebrow { margin-bottom: 12px; }
-    .hero h1 { font-size: clamp(46px, 12vw, 88px); }
-    .hero h1 .script { font-size: clamp(38px, 10vw, 70px); }
-    .hero-sub { margin-top: 16px; }
-
-    .stats { grid-template-columns: repeat(2, 1fr); height: auto; padding: 40px 0; gap: 40px 0; }
-    .stat:nth-child(2)::after { display: none; }
-    .stat .num { font-size: clamp(36px, 8vw, 44px); }
-
+    nav.mobile-nav {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: var(--white);
+      flex-direction: column;
+      text-align: center;
+      padding: 10px 0;
+      gap: 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      z-index: 100;
+    }
+    nav.mobile-nav.active { display: flex !important; }
+    nav.mobile-nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      color: var(--brown);
+      text-decoration: none;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    nav.mobile-nav a:last-child { border-bottom: none; }
+    .hero { min-height: auto; padding: 40px 0 0; overflow-x: hidden; }
+    .hero-text-container { width: 100%; box-sizing: border-box; overflow: visible; padding: 0 16px; }
+    .hero-title { white-space: nowrap; overflow: visible; }
+    .hero-bottom-text {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: flex-start;
+      font-size: 11px !important;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+    .hero-bottom-text .left-text { text-align: left; }
+    .hero-bottom-text .right-text { text-align: right; }
+    .hero-image-container { margin-top: 0; }
+    .hero .photo { height: 35vh; }
+    .hero-image-slider { height: 75vh; }
     .weddings { grid-template-columns: repeat(2, 1fr); gap: 12px; height: auto; padding-bottom: 60px; }
     .wed-card.h1, .wed-card.h2, .wed-card.h3, .wed-card.h4 { height: 260px; }
     .wed-caption { left: 12px; bottom: 12px; }
     .wed-caption .name { font-size: 16px; }
     .view-all { margin-top: 20px; padding-bottom: 60px; }
-
     .film { min-height: auto; height: auto; aspect-ratio: 16/9; max-height: none; }
     .film-inner { padding: 0 16px; justify-content: center; }
     .film-inner .label { margin-bottom: 10px; font-size: 10px; }
     .film-inner h2 { font-size: clamp(20px, 6vw, 32px); margin-bottom: 12px; }
     .play-btn { width: 44px; height: 44px; font-size: 14px; margin-bottom: 12px; }
     .film-meta { display: none; }
-
     .insta-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding-bottom: 60px; }
-
     .cta { padding: 80px 24px; }
     .cta h2 { font-size: clamp(36px, 10vw, 60px); }
     .cta .script { font-size: clamp(32px, 8vw, 48px); }
-
     .foot-bottom { flex-direction: column; gap: 12px; align-items: center; text-align: center; }
+    .glance-box {
+      width: 90%;
+      padding: 30px 16px;
+      margin-top: -2vh;
+    }
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
+  .editorial-slider-section {
+    position: relative; margin: 10vw auto 18vw; width: 90%; max-width: 1400px; 
+    overflow: hidden; border: 6px solid #ffffff; box-shadow: 0 15px 50px rgba(0,0,0,0.06); 
+    box-sizing: border-box; border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .editorial-slider-section {
+      width: 90%; margin: 15vw auto 20vw; border: 6px solid #ffffff; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+    .swipe-arrow { width: 40px; height: 40px; }
+    .swipe-arrow svg { width: 24px; height: 24px; }
+    .swipe-prev { left: 5px; }
+    .swipe-next { right: 5px; }
+    .projects-section { padding-top: 30vw !important; padding-bottom: 15vw !important; }
+    .swipe-slide { padding: 0; }
+    .editorial-wrap-inner { padding: 4vw 2vw; }
+    .grid-type-1, .grid-type-2, .grid-type-3 { gap: 10px; }
+    .ed-text { padding: 5px; }
+    .ed-title, .ed-subtitle { margin-bottom: 5px; }
+    .ed-img[style*="translateY(40px)"] { transform: translateY(15px) !important; }
+    .ed-img[style*="translateY(-40px)"] { transform: translateY(-15px) !important; }
   }
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<header>
-  <div class="logo"><b>FOTOMANTRA</b></div>
-  <div class="menu-toggle" onclick="this.classList.toggle('open'); document.querySelector('nav').classList.toggle('active');">
+<header style="justify-content: center;">
+  <nav class="center-nav hidden md:flex" style="font-size:13px; letter-spacing:1.5px; gap:40px;">
+    <a href="#">STUDIO</a>
+    <a href="#">PHOTOGRAPHY</a>
+    <a href="#">FILMS</a>
+    <a href="#">STORIES</a>
+    <a href="#">ABOUT</a>
+  </nav>
+  <div class="menu-toggle" onclick="this.classList.toggle('open'); document.querySelector('.mobile-nav').classList.toggle('active');">
     <span></span><span></span><span></span>
   </div>
-  <nav>
-    <a href="#">Home</a><a href="#">Weddings</a><a href="#">Films</a>
-    <a href="#">Stories</a><a href="#">About</a><a href="#">Contact</a>
+  <nav class="mobile-nav">
+    <a href="#">STUDIO</a>
+    <a href="#">PHOTOGRAPHY</a>
+    <a href="#">FILMS</a>
+    <a href="#">STORIES</a>
+    <a href="#">ABOUT</a>
   </nav>
 </header>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="photo dark-overlay" data-cap="Cinematic wedding photograph — hero image"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">The Fotomantra</div>
-    <h1>WHERE<br>EMOTIONS<br>BECOME <span class="script">art.</span></h1>
-    <div class="hero-sub">Best Wedding Photography Jaipur</div>
+<section class="hero" id="hero-section">
+  <div class="hero-text-container">
+    <div class="hero-title"><span id="fm-text">FOTOMANTRA</span></div>
+    <div class="hero-bottom-text">
+      <div class="left-text">MOMENTS, EMOTIONS<br>&amp; STORIES</div>
+      <div class="right-text">TOLD WITH<br>HEART</div>
+    </div>
   </div>
-</section>
-
-<!-- STATS -->
-<section class="stats" id="stats-section">
-  <div class="stat"><div class="num serif"><span class="counter" data-target="250">0</span>+</div><div class="label">Weddings</div></div>
-  <div class="stat"><div class="num serif"><span class="counter" data-target="7">0</span>+</div><div class="label">Years of Stories</div></div>
-  <div class="stat"><div class="num serif"><span class="counter" data-target="21">0</span>K+</div><div class="label">Followers</div></div>
-  <div class="stat"><div class="num serif">∞</div><div class="label">Memories</div></div>
-</section>
-
-<!-- HORIZONTAL DIVIDER (Matches Stats Vertical Lines) -->
-<div class="w-full h-[1px] opacity-50" style="background:var(--taupe);"></div>
-
-<!-- ABOUT (Full Width Cream Background) -->
-<div class="w-full" style="background:var(--cream);">
-  <section class="flex flex-col md:flex-row items-center justify-between max-w-[1440px] mx-auto px-6 md:px-[100px] pt-[20px] pb-[120px] gap-12 md:gap-[8%]">
-    <!-- Left: Founder Image (~45%) -->
-    <div class="w-full md:w-[45%] flex justify-center md:justify-end">
-      <div class="w-[85%] max-w-[360px] md:w-full md:max-w-[420px] aspect-[3/4]">
-        <div class="photo bw w-full h-full rounded-t-full rounded-b-[40px] overflow-hidden" data-cap="Mr. Ravi Soni - Founder"></div>
+  <div class="hero-image-container">
+    <div class="hero-image-slider">
+      <div class="hero-slides">
+        <div class="hero-slide active" style="background-image: url('./public/image.png')"></div>
+        <div class="hero-slide" style="background-image: url('./public/image01.png')"></div>
+        <div class="hero-slide" style="background-image: url('./public/image02.png')"></div>
+      </div>
+      <div class="slide-progress">
+        <div class="slide-progress-bar" id="hero-progress-bar"></div>
       </div>
     </div>
-    <!-- Right: Text Content (~45%) -->
-    <div class="w-full md:w-[45%] flex flex-col justify-center">
-      <div class="label flex items-center gap-3"><span class="w-10 h-[1px] bg-[#B9A08C]"></span> WHO WE ARE</div>
-      <h2 style="font-size:48px; line-height:1.1; margin-top:16px; font-style:italic; font-family:'Cormorant Garamond', serif; font-weight:400; color:var(--brown);">Our mantra is you.</h2>
-      <p style="margin-top:16px; font-size:16px; line-height:1.6; color:var(--charcoal); max-w-[420px];">We don't just take pictures, we preserve emotions, relationships and fleeting moments that become your forever.</p>
-      <div class="signature script" style="margin-top:28px; font-size:40px; color:var(--brown);">Mr. Ravi Soni</div>
-      <div class="founder" style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--taupe); margin-top:4px;">Mr. Ravi Soni — Founder, The Fotomantra</div>
-      <a class="btn" style="margin-top:32px; padding:10px 24px; width:fit-content;">More About Us →</a>
-    </div>
-  </section>
-</div>
-
-<!-- SEAMLESS GAPLESS GALLERY (Stories) -->
-<section class="max-w-[1440px] mx-auto px-4 md:px-[64px] pb-[130px]">
-  
-  <!-- Unique Header: Center aligned with elegant script -->
-  <div class="pt-[30px] pb-[30px] text-center flex flex-col items-center">
-    <div class="label mb-2">Gallery</div>
-    <h2 class="script" style="font-size:56px; text-transform:none; color:var(--brown); line-height:1;">Written in Moments</h2>
-    <p class="text-sm mt-2 text-stone-500 max-w-[400px]">A seamless collection of our finest captures</p>
-  </div>
-  
-  <!-- Gapless, Interlocking Grid inside a rounded container -->
-  <div class="grid grid-cols-2 md:grid-cols-4 grid-rows-8 md:grid-rows-4 gap-0 h-[1000px] md:h-[800px] rounded-xl md:rounded-2xl overflow-hidden shadow-xl border-[2px] md:border-4 border-white bg-white" style="grid-auto-flow: dense;">
-    
-    <!-- 1: Large (2x2) at TOP LEFT -->
-    <div class="col-span-2 row-span-2 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
-      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Couple (Large)"></div>
-    </div>
-    
-    <!-- 2: Tall (1x2) -->
-    <div class="col-span-1 row-span-2 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
-      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Portrait (Tall)"></div>
-    </div>
-    
-    <!-- 3: Small (1x1) -->
-    <div class="col-span-1 row-span-1 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
-      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Rings (Detail)"></div>
-    </div>
-    
-    <!-- 4: Small (1x1) -->
-    <div class="col-span-1 row-span-1 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
-      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Decor (Detail)"></div>
-    </div>
-    
-    <!-- 5: Small (1x1) -->
-    <div class="col-span-1 row-span-1 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
-      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Candid (Small)"></div>
-    </div>
-    
-    <!-- 6: Tall (1x2) -->
-    <div class="col-span-1 row-span-2 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
-      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Bride (Tall)"></div>
-    </div>
-    
-    <!-- 7: Large (2x2) at BOTTOM RIGHT (Diagonal to Couple) -->
-    <div class="col-span-2 row-span-2 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
-      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Vows (Large)"></div>
-    </div>
-    
-    <!-- 8: Small (1x1) -->
-    <div class="col-span-1 row-span-1 group relative overflow-hidden cursor-pointer border-[0.5px] border-white">
-      <div class="photo bw w-full h-full transition-transform duration-1000 group-hover:scale-110" data-cap="Dance (Small)"></div>
-    </div>
-
   </div>
 </section>
 
-<!-- FEATURED WEDDINGS -->
-<section class="wrap">
-  <!-- Unique Header: Split Layout with Underline -->
-  <div class="flex flex-col md:flex-row justify-between items-end pb-[40px] pt-[80px] mb-[40px] border-b border-stone-300">
-    <div>
-      <div class="label mb-2">Featured Weddings</div>
-      <h2 style="font-size:52px;line-height:1.05;text-transform:uppercase;">Some Moments.<br>Forever.</h2>
+<!-- AT A GLANCE RECTANGLE -->
+<section class="glance-box" style="padding: 3vw 30px;">
+    <div style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.18em; color: var(--taupe); text-transform: uppercase; margin-bottom: 1vw; font-weight: 500;">At A Glance</div>
+    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 3.5vw, 44px); line-height: 1.3; color: var(--brown); margin-bottom: 1vw; max-width: 900px; font-weight: 500;">
+      We don't just take pictures, we preserve emotions, relationships and fleeting moments that become your forever.
+    </h3>
+    <p style="font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.7; color: var(--brown); opacity: 0.75; max-width: 650px;">
+      Every love story is a masterpiece waiting to be told. Through our lens, we capture the candid, the quiet, and the celebratory moments, turning your most magical day into a timeless visual legacy.
+    </p>
+    <div style="position: relative; display: inline-block; margin-top: 1.5vw; width: 120px;">
+      <img src="C:/Users/shyam/.gemini/antigravity/brain/c2f47566-7889-455a-b136-5c9e94b86f04/.user_uploaded/media_1788634129152.png" alt="Decorative Divider" style="width: 100%; display: block;">
+      <div style="position: absolute; inset: 0; background-color: var(--cream); mix-blend-mode: screen; pointer-events: none;"></div>
     </div>
-    <p class="max-w-[300px] text-left md:text-right text-sm text-stone-500 pb-2">A glimpse into the beautiful celebrations we've had the honour to capture.</p>
-  </div>
-  
-  <div class="weddings">
-    <div class="wed-card h1"><div class="photo" style="height:100%" data-cap=""></div><div class="wed-caption"><div class="name">Ritesh &amp; Genelia</div><div class="loc">Jaipur</div></div></div>
-    <div class="wed-card h2"><div class="photo" style="height:100%" data-cap=""></div><div class="wed-caption"><div class="name">Kunal &amp; Aanchal</div><div class="loc">Udaipur</div></div></div>
-    <div class="wed-card h3"><div class="photo" style="height:100%" data-cap=""></div><div class="wed-caption"><div class="name">Sachin &amp; Neha</div><div class="loc">Jaipur</div></div></div>
-    <div class="wed-card h4"><div class="photo" style="height:100%" data-cap=""></div><div class="wed-caption"><div class="name">Varun &amp; Megha</div><div class="loc">Udaipur</div></div></div>
-  </div>
-  <div class="view-all"><a class="btn">View All Weddings →</a></div>
 </section>
 
+<section class="projects-section" style="background: var(--cream); padding-top: 12vw; padding-bottom: 8vw; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; width: 100%;">
 
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const counters = document.querySelectorAll('.counter');
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          counters.forEach(counter => {
-            const target = +counter.getAttribute('data-target');
-            const duration = 2000; 
-            const increment = target / (duration / 16); 
-            let current = 0;
-            const updateCounter = () => {
-              current += increment;
-              if(current < target) {
-                counter.innerText = Math.ceil(current);
-                requestAnimationFrame(updateCounter);
-              } else {
-                counter.innerText = target;
-              }
-            };
-            updateCounter();
-          });
-          observer.disconnect(); 
-        }
-      });
-    }, { threshold: 0.5 }); 
-
-    const statsSection = document.getElementById('stats-section');
-    if(statsSection) observer.observe(statsSection);
-  });
-</script>
-
-<!-- FILM -->
-<section class="film">
-  <div class="photo dark-overlay" data-cap="Wedding film still"></div>
-  <div class="film-inner">
-    <!-- Unique Header: Cinematic overlay text -->
-    <div class="label tracking-[0.4em] mb-6">Watch The Story</div>
-    <div class="play-btn">▶</div>
-    <h2 style="font-size:54px;max-width:640px;line-height:1.1;text-transform:uppercase;">Every frame<br>has a feeling.</h2>
+  <!-- PROJECTS label + heading — z-index 10 -->
+  <div style="position: relative; z-index: 10; text-align: center; display: flex; flex-direction: column; align-items: center;">
+    <div style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 14px; letter-spacing: 0.18em; color: #3A2621; margin-bottom: 1.5vw;">
+      PROJECTS
+    </div>
+    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 4.5vw; letter-spacing: 0.02em; line-height: 1; color: #3A2621; font-weight: 500; margin-bottom: 0.5vw;">
+      FRAMES WITH FEELING
+    </h2>
   </div>
-  <div class="film-meta">01 / 04 — Cinematography</div>
-</section>
 
-<!-- TESTIMONIALS -->
-<section class="wrap">
-  <div class="testi w-full">
-    <div class="label tracking-[0.2em] uppercase text-[#B9A08C]">Kind Words</div>
-    <div style="font-size:80px; font-family:'Cormorant Garamond',serif; color:var(--taupe); line-height:0; margin-top:40px; opacity:0.4;">"</div>
-    
-    <!-- Carousel Container -->
-    <div class="relative w-full max-w-[800px] h-[300px] md:h-[220px] mt-4 flex items-center justify-center">
-      
-      <!-- Slide 1 -->
-      <div class="review-slide absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000 opacity-100">
-        <h2 class="serif" style="font-size:clamp(20px, 4vw, 34px); line-height:1.4; width:92%; max-width:600px;">They didn't just capture our wedding, they captured every emotion, every smile and every moment we'll cherish forever.</h2>
-        <div class="who" style="margin-top:20px; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal);">— Ritesh &amp; Genelia</div>
+  <!-- CALLIGRAPHIC MARQUEE — z-index 1, behind images -->
+  <div style="position: relative; z-index: 1; width: 100%; overflow: hidden; margin-top: 4vw; pointer-events: none; line-height: 0;">
+    <div class="calligraphy-marquee-track" style="
+      display: flex;
+      white-space: nowrap;
+      will-change: transform;
+      animation: marquee-scroll 40s linear infinite;
+      opacity: 0.15;
+    ">
+      <span style="
+        font-family: 'Canora Frente', 'Canora', 'Playfair Display', serif;
+        font-style: italic;
+        font-size: clamp(100px, 20vw, 380px);
+        font-weight: 400;
+        color: #241311;
+        line-height: 0.7;
+        letter-spacing: -0.01em;
+        padding-right: 6vw;
+        display: inline-block;
+        white-space: nowrap;
+      ">Every Love Story Deserves to be Remembered &nbsp;&nbsp;&nbsp;</span>
+      <span style="
+        font-family: 'Canora Frente', 'Canora', 'Playfair Display', serif;
+        font-style: italic;
+        font-size: clamp(100px, 20vw, 380px);
+        font-weight: 400;
+        color: #241311;
+        line-height: 0.7;
+        letter-spacing: -0.01em;
+        padding-right: 6vw;
+        display: inline-block;
+        white-space: nowrap;
+      ">Every Love Story Deserves to be Remembered &nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- 3 Images — z-index 2, only 15% of calligraphy behind images -->
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5vw; width: 100%; padding: 0 0.5vw; margin-top: -2.5vw; position: relative; z-index: 2; box-sizing: border-box;">
+
+    <!-- Pic 1 -->
+    <div style="aspect-ratio: 4/5; position: relative; overflow: hidden;">
+      <div style="position: absolute; inset: 0; background-image: url('./public/pic1.png'); background-size: cover; background-position: center;"></div>
+      <!-- Dark gradient at bottom -->
+      <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%);"></div>
+      <!-- Couple name -->
+      <div style="position: absolute; bottom: 6%; left: 0; width: 100%; text-align: center; padding: 0 12px;">
+        <div style="font-family: 'Canora Frente', 'Canora', 'Playfair Display', serif; font-style: italic; font-size: clamp(20px, 3vw, 40px); font-weight: 400; color: #ffffff; line-height: 1.1; letter-spacing: 0.02em;">
+          Kriti &amp; Pulkit
+        </div>
       </div>
-      
-      <!-- Slide 2 -->
-      <div class="review-slide absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000 opacity-0 pointer-events-none">
-        <h2 class="serif" style="font-size:clamp(20px, 4vw, 34px); line-height:1.4; width:92%; max-width:600px;">Looking at our photos feels like reliving the most magical day of our lives. The attention to detail is just breathtaking.</h2>
-        <div class="who" style="margin-top:20px; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal);">— Kunal &amp; Aanchal</div>
-      </div>
-      
-      <!-- Slide 3 -->
-      <div class="review-slide absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000 opacity-0 pointer-events-none">
-        <h2 class="serif" style="font-size:clamp(20px, 4vw, 34px); line-height:1.4; width:92%; max-width:600px;">True artists! They blended in perfectly and caught the raw, beautiful candid moments we didn't even know happened.</h2>
-        <div class="who" style="margin-top:20px; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal);">— Sachin &amp; Neha</div>
-      </div>
-      
     </div>
 
-    <!-- Carousel Dots -->
-    <div class="dots flex justify-center mt-2">
-      <div class="dot active"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
+    <!-- Pic 2 -->
+    <div style="aspect-ratio: 4/5; position: relative; overflow: hidden;">
+      <div style="position: absolute; inset: 0; background-image: url('./public/pic2.png'); background-size: cover; background-position: center;"></div>
+      <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%);"></div>
+      <div style="position: absolute; bottom: 6%; left: 0; width: 100%; text-align: center; padding: 0 12px;">
+        <div style="font-family: 'Canora Frente', 'Canora', 'Playfair Display', serif; font-style: italic; font-size: clamp(20px, 3vw, 40px); font-weight: 400; color: #ffffff; line-height: 1.1; letter-spacing: 0.02em;">
+          Katrina &amp; Vicky
+        </div>
+      </div>
     </div>
+
+    <!-- Pic 3 -->
+    <div style="aspect-ratio: 4/5; position: relative; overflow: hidden;">
+      <div style="position: absolute; inset: 0; background-image: url('./public/pic3.png'); background-size: cover; background-position: center;"></div>
+      <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%);"></div>
+      <div style="position: absolute; bottom: 6%; left: 0; width: 100%; text-align: center; padding: 0 12px;">
+        <div style="font-family: 'Canora Frente', 'Canora', 'Playfair Display', serif; font-style: italic; font-size: clamp(20px, 3vw, 40px); font-weight: 400; color: #ffffff; line-height: 1.1; letter-spacing: 0.02em;">
+          Darshan &amp; Dharal
+        </div>
+      </div>
+    </div>
+
   </div>
+
 </section>
 
-<!-- TESTIMONIALS CAROUSEL SCRIPT -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const slides = document.querySelectorAll('.review-slide');
-    const dots = document.querySelectorAll('.testi .dot');
-    let currentSlide = 0;
-    if(slides.length === 0) return;
 
-    setInterval(() => {
-      slides[currentSlide].classList.remove('opacity-100');
-      slides[currentSlide].classList.add('opacity-0', 'pointer-events-none');
-      dots[currentSlide].classList.remove('active');
-      
-      currentSlide = (currentSlide + 1) % slides.length;
-      
-      slides[currentSlide].classList.remove('opacity-0', 'pointer-events-none');
-      slides[currentSlide].classList.add('opacity-100');
-      dots[currentSlide].classList.add('active');
-    }, 4500); // 4.5 seconds per slide
-  });
-</script>
 
-<!-- INSTAGRAM -->
-<section class="wrap">
-  <!-- Unique Header: Centered Minimalist -->
-  <div class="flex flex-col items-center justify-center text-center pt-[90px] pb-[60px]">
-    <div class="label tracking-[0.3em] mb-3">@thefotomantra</div>
-    <h2 style="font-size:40px;text-transform:uppercase;letter-spacing:2px;">From Our Journey</h2>
-    <a href="https://www.instagram.com/thefotomantra/" target="_blank" class="btn mt-8">Follow Us On Instagram →</a>
-  </div>
+
+
+<!-- EDITORIAL GRIDS SLIDER SECTION -->
+<section class="editorial-slider-section">
   
-  <div class="insta-grid">
-    <div class="photo" data-cap=""></div>
-    <div class="photo" data-cap=""></div>
-    <div class="photo" data-cap=""></div>
-    <div class="photo" data-cap=""></div>
-    <div class="photo" data-cap=""></div>
-    <div class="photo" data-cap=""></div>
-    <div class="photo" data-cap=""></div>
-    <div class="photo" data-cap=""></div>
+  <!-- Navigation Arrows -->
+  <button class="swipe-arrow swipe-prev" onclick="document.getElementById('swipeTrack').scrollBy({left: -document.getElementById('swipeTrack').clientWidth, behavior: 'smooth'})">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <button class="swipe-arrow swipe-next" onclick="document.getElementById('swipeTrack').scrollBy({left: document.getElementById('swipeTrack').clientWidth, behavior: 'smooth'})">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+  </button>
+
+  <div id="swipeTrack" class="swipe-track">
+    
+    <!-- SLIDE 1 -->
+    <div class="swipe-slide">
+      <div class="editorial-wrap-inner">
+        <!-- Grid 1: Text + 2 Images -->
+        <div class="grid-type-1">
+          <div class="ed-text">
+            <div class="ed-subtitle">The Beginning</div>
+            <h2 class="ed-title">Quiet Moments</h2>
+            <p class="ed-p">The subtle glances and tender touches that speak louder than words. We capture the authentic connection between you two.</p>
+          </div>
+          <div><img src="./public/pic1.png" alt="Couple 1" class="ed-img" style="aspect-ratio: 4/5;"></div>
+          <div><img src="./public/pic2.png" alt="Couple 2" class="ed-img" style="aspect-ratio: 4/5; transform: translateY(40px);"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="swipe-slide">
+      <div class="editorial-wrap-inner">
+        <!-- Grid 2: Landscape + Portrait -->
+        <div class="grid-type-2">
+          <!-- First Image: Together -->
+          <div style="position: relative; height: 100%;">
+            <img src="./public/image.png" alt="Together" class="ed-img" style="aspect-ratio: 16/9;">
+            <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.2), transparent 50%); border-radius: 4px; pointer-events: none;"></div>
+            <div style="position: absolute; bottom: -2vw; left: -3.5vw; color: #ffffff; text-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 8vw, 100px); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; z-index: 10;">Together</div>
+          </div>
+          <!-- Second Image: Forever -->
+          <div style="position: relative; height: 100%;">
+            <img src="./public/image01.png" alt="Forever" class="ed-img" style="aspect-ratio: 4/5;">
+            <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), transparent 50%); border-radius: 4px; pointer-events: none;"></div>
+            <div style="position: absolute; top: -2.5vw; right: -3vw; color: #ffffff; text-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 6vw, 80px); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; z-index: 10;">Forever</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="swipe-slide">
+      <div class="editorial-wrap-inner">
+        <!-- Grid 3: Portrait + Text + Portrait -->
+        <div class="grid-type-3">
+          <div><img src="./public/pic3.png" alt="Joy" class="ed-img" style="aspect-ratio: 4/5; transform: translateY(-40px);"></div>
+          <div class="ed-text">
+            <div class="ed-subtitle">The Celebration</div>
+            <h2 class="ed-title">Eternal Joy</h2>
+            <p class="ed-p">Celebrating love with the ones who matter most, framing pure joy in every shot.</p>
+          </div>
+          <div><img src="./public/image02.png" alt="Celebration" class="ed-img" style="aspect-ratio: 4/5; transform: translateY(40px);"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta">
-  <h2>Let's Create<span class="script">something beautiful together.</span></h2>
-  <p>Your story deserves more than a photograph. Let's create something you'll feel forever.</p>
-  <a class="btn light">Enquire Now →</a>
+<!-- CTA SECTION -->
+<section style="position: relative; background: var(--cream); overflow: hidden; padding: 10vw 20px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+  
+  <!-- Transparent Picture Background -->
+  <div style="position: absolute; inset: 0; background-image: url('./public/image.png'); background-size: cover; background-position: center; opacity: 0.2; z-index: 1;"></div>
+  
+  <!-- Content -->
+  <div style="position: relative; z-index: 2; width: 100%; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+    
+    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 6vw, 64px); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brown); margin-bottom: 4vw; line-height: 1.1;">
+      Let's Create Magic
+    </h2>
+    
+    <!-- Long Horizontal Button -->
+    <a href="#" class="cta-long-btn" style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%; 
+      border-top: 1px solid var(--brown); 
+      border-bottom: 1px solid var(--brown); 
+      padding: 2.5vw 0; 
+      text-decoration: none; 
+      color: var(--brown);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    ">
+      <span style="font-family: 'Inter', sans-serif; font-size: clamp(12px, 1.5vw, 16px); font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; transition: color 0.4s ease;">
+        Get In Touch
+      </span>
+    </a>
+
+  </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
+<footer style="background: var(--cream); color: var(--brown); padding: 80px 0 40px;">
   <div class="wrap">
-    <div class="foot-grid">
+    <div class="footer-grid">
+      
+      <!-- Column 1: Logo & Tagline -->
       <div>
-        <div class="foot-logo">FOTOMANTRA</div>
-        <div style="font-size:12px;letter-spacing:.1em;opacity:.7;margin-top:4px;">The Fotomantra</div>
+        <div style="font-family: 'Fraunces', serif; font-size: 24px; font-weight: 900; letter-spacing: 2px; color: var(--brown); margin-bottom: 16px;">FOTOMANTRA</div>
+        <div style="font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.8; color: var(--brown); opacity: 0.8; max-width: 280px;">
+          Capturing fleeting moments and preserving emotions. Fine art wedding photography based in Jaipur.
+        </div>
       </div>
-      <div class="foot-col">
-        <p style="font-size:18px; margin-top: 10px;">Jaipur Photography</p>
+      
+      <!-- Column 2: Links -->
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; color: var(--brown); margin-bottom: 8px;">Explore</div>
+        <a href="#" style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--brown); opacity: 0.8; transition: opacity 0.3s;">Studio</a>
+        <a href="#" style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--brown); opacity: 0.8; transition: opacity 0.3s;">Photography</a>
+        <a href="#" style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--brown); opacity: 0.8; transition: opacity 0.3s;">Films</a>
+        <a href="#" style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--brown); opacity: 0.8; transition: opacity 0.3s;">Stories</a>
       </div>
+      
+      <!-- Column 3: Contact -->
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; color: var(--brown); margin-bottom: 8px;">Connect</div>
+        <a href="#" style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--brown); opacity: 0.8; transition: opacity 0.3s;">Instagram</a>
+        <a href="#" style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--brown); opacity: 0.8; transition: opacity 0.3s;">Facebook</a>
+        <a href="#" style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--brown); opacity: 0.8; transition: opacity 0.3s;">Pinterest</a>
+        <a href="mailto:hello@thefotomantra.com" style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--brown); opacity: 0.8; transition: opacity 0.3s; margin-top: 4px; word-break: break-all;">hello@thefotomantra.com</a>
+      </div>
+
     </div>
-    <div class="foot-bottom">
-      <div>© The Fotomantra — All Rights Reserved.</div>
-      <div>Privacy Policy &nbsp;&nbsp; Terms &amp; Conditions</div>
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--brown); opacity: 0.6; flex-wrap: wrap; gap: 16px;">
+      <div>© FOTOMANTRA — All Rights Reserved.</div>
+      <div style="display: flex; gap: 24px;">
+        <a href="#" style="color: inherit;">Privacy Policy</a>
+        <a href="#" style="color: inherit;">Terms &amp; Conditions</a>
+      </div>
     </div>
   </div>
 </footer>
+
+<script>
+  (function fitText() {
+    var container  = document.querySelector('.hero-text-container');
+    var el          = document.querySelector('.hero-title');
+    var textSpan    = document.getElementById('fm-text');
+    if (!container || !el || !textSpan) return;
+
+    // Ensure span behaves as an intrinsic-width element for accurate DOM measurement
+    textSpan.style.display = 'inline-block';
+
+    function scale() {
+      // 1. Determine available width inside container
+      var containerStyle = window.getComputedStyle(container);
+      var padding = parseFloat(containerStyle.paddingLeft) + parseFloat(containerStyle.paddingRight);
+      var targetW = container.clientWidth - padding;
+
+      // 2. Set test size
+      var testSize = 200;
+      el.style.fontSize = testSize + 'px';
+      
+      // Force reflow and fetch applied styles
+      var elStyle = window.getComputedStyle(el);
+      var text = textSpan.textContent.trim();
+      
+      // 3. Measure DOM layout width (includes letter-spacing padding on the right)
+      var rect = textSpan.getBoundingClientRect();
+      var measuredVisualW = rect.width;
+      var leftSideBearing = 0;
+      
+      // 4. Use Canvas for exact visual ink bounds
+      try {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        ctx.font = elStyle.fontWeight + ' ' + testSize + 'px ' + elStyle.fontFamily;
+        
+        if ('letterSpacing' in ctx) {
+          ctx.letterSpacing = elStyle.letterSpacing;
+          var metrics = ctx.measureText(text);
+          if (metrics.actualBoundingBoxLeft !== undefined && metrics.actualBoundingBoxRight !== undefined) {
+            measuredVisualW = metrics.actualBoundingBoxRight + metrics.actualBoundingBoxLeft;
+            leftSideBearing = -metrics.actualBoundingBoxLeft;
+          }
+        } else {
+          // DOM Fallback: Adjust for trailing negative letter-spacing
+          var ls = parseFloat(elStyle.letterSpacing);
+          if (!isNaN(ls)) {
+            measuredVisualW = rect.width - ls; // if ls is negative, this increases visual width
+          }
+        }
+      } catch (e) {
+        // Silent fallback to standard measurement
+      }
+
+      // 5. Calculate new font size
+      var scaleRatio = targetW / measuredVisualW;
+      var newSize = testSize * scaleRatio;
+      
+      // 6. Apply calculated size and offset
+      el.style.fontSize = newSize + 'px';
+      var finalLeftOffset = leftSideBearing * scaleRatio;
+      el.style.marginLeft = -finalLeftOffset + 'px';
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(scale);
+    }
+    
+    scale();
+    
+    // Debounce resize to prevent performance issues
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(scale, 100);
+    });
+  })();
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const slides = document.querySelectorAll('.hero-slide');
+    const progressBar = document.getElementById('hero-progress-bar');
+    if(slides.length === 0) return;
+
+    let currentIndex = 0;
+    const slideDuration = 4000; // 4 seconds per image
+    let startTime;
+    let animationFrame;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'exit');
+        if(i === index) {
+          slide.classList.add('active');
+        } else if (i === (index - 1 + slides.length) % slides.length) {
+          slide.classList.add('exit');
+        }
+      });
+      
+      startTime = performance.now();
+      cancelAnimationFrame(animationFrame);
+      updateProgress(startTime);
+    }
+
+    function updateProgress(timestamp) {
+      const elapsed = timestamp - startTime;
+      let progress = (elapsed / slideDuration) * 100;
+      
+      if (progress >= 100) {
+        progress = 100;
+        progressBar.style.width = '100%';
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+      } else {
+        progressBar.style.width = progress + '%';
+        animationFrame = requestAnimationFrame(updateProgress);
+      }
+    }
+
+    // Start first slide
+    showSlide(currentIndex);
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const outerSection = document.querySelector('.horizontal-scroll-outer');
+    const track = document.querySelector('.horizontal-track');
+    const viewport = document.querySelector('.horizontal-viewport');
+    
+    if(!outerSection || !track || !viewport) return;
+
+    let maxScroll = 0;
+
+    function updateMaxScroll() {
+      // Calculate how far the track can move horizontally
+      maxScroll = track.scrollWidth - viewport.clientWidth;
+    }
+
+    // Update dimensions on resize
+    const resizeObserver = new ResizeObserver(() => {
+      updateMaxScroll();
+      handleScroll();
+    });
+    resizeObserver.observe(track);
+    resizeObserver.observe(viewport);
+
+    function handleScroll() {
+      const rect = outerSection.getBoundingClientRect();
+      const scrollHeight = rect.height - window.innerHeight;
+      
+      // Calculate scroll progress relative to the outer section (0 to 1)
+      let progress = -rect.top / scrollHeight;
+      progress = Math.max(0, Math.min(1, progress));
+      
+      // Map progress to horizontal translation
+      const translateX = -(progress * maxScroll);
+      
+      // Apply transform without smoothing (scroll-driven feels more native)
+      track.style.transform = `translate3d(${translateX}px, 0, 0)`;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial state
+    updateMaxScroll();
+    handleScroll();
+  });
+</script>
 
 </body>
 </html>
