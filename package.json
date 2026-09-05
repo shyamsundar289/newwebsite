@@ -1,0 +1,12 @@
+{
+  "name": "fotomantra",
+  "version": "1.0.0",
+  "description": "Fotomantra Static Website",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/input.css -o ./css/tailwind.css --watch",
+    "build": "tailwindcss -i ./src/input.css -o ./css/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
